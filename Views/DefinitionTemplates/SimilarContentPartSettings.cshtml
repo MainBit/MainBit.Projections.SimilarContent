@@ -1,0 +1,18 @@
+﻿@model MainBit.Projections.SimilarContent.Settings.SimilarContentPartSettings
+<fieldset>
+    <div>
+        @Html.LabelFor(m => m.QueryPartRecord_Id, T("For Query"))
+        @Display.SimilarContentQueryPicker(QueryPartRecord_Id: Model.QueryPartRecord_Id)
+        <span class="hint">@T("The query to display.")</span>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Items, T("Items to display"))
+        @Html.TextBoxFor(m => m.Items, new { @class = "text small" })
+        <span class="hint">@T("The number of items to display. Enter 0 for no limit.")</span>
+    </div>
+    <div>
+        @Html.LabelFor(m => m.DisplayType, T("Similar items display type"))
+        @Html.TextBoxFor(m => m.DisplayType, new { @class = "text" })
+        <span class="hint">@T("Similar items display type. Leave empty for summary.")</span>
+    </div>
+</fieldset>

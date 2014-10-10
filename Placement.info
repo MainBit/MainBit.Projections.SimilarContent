@@ -1,0 +1,5 @@
+﻿<Placement>
+    <Match DisplayType="Detail">
+      <Place Parts_Projections_SimilarContent="Content:20" />
+    </Match>
+</Placement>

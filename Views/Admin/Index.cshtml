@@ -1,0 +1,12 @@
+@{
+    Layout.Title = T("Similar Content");
+}
+<h1>@Html.TitleForPage(T("Similar Content").ToString())</h1>
+
+@Html.ValidationSummary()
+@using (Html.BeginFormAntiForgeryPost(Url.Action("ClearCache", "Admin", new { area = "MainBit.Projections.SimilarContent" })))
+{
+    <fieldset>
+        <button class="primaryAction" type="submit">@T("Clear cache")</button>
+    </fieldset>
+}

@@ -1,0 +1,46 @@
+﻿@*@using Orchard.Projections.ViewModels;
+@{
+    var selectedQueryRecordId = -1;
+    string QueryLayoutRecordId = Model.QueryLayoutRecordId;
+}
+<select id="@Html.FieldIdFor(m => QueryLayoutRecordId)" name="@Html.FieldNameFor(m => QueryLayoutRecordId)">
+    @foreach (QueryRecordEntry queryRecord in ((IEnumerable<QueryRecordEntry>)Model.QueryRecordEntries).OrderBy(x => x.Name))
+    {
+        <optgroup label="@queryRecord.Name">
+            @Html.SelectOption(QueryLayoutRecordId, queryRecord.Id + ";-1", queryRecord.Name + " " + T("(Default Layout)").Text)
+            @if (Model.QueryLayoutRecordId == queryRecord.Id + ";-1")
+            {
+                selectedQueryRecordId = queryRecord.Id;
+            }
+
+            @foreach (LayoutRecordEntry layoutRecord in queryRecord.LayoutRecordEntries.OrderBy(x => x.Description))
+            {
+                @Html.SelectOption(QueryLayoutRecordId, queryRecord.Id + ";" + layoutRecord.Id, queryRecord.Name + " " + T("({0})", layoutRecord.Description).Text)
+                if (Model.QueryLayoutRecordId == queryRecord.Id + ";" + layoutRecord.Id)
+                {
+                    selectedQueryRecordId = queryRecord.Id;
+                }
+            }
+        </optgroup>
+    }
+</select>
+@if (selectedQueryRecordId != -1)
+{
+    @Html.ActionLink(T("Edit Query").Text, "Edit", new { area = "Orchard.Projections", id = selectedQueryRecordId }, new { })
+}*@
+@using Orchard.Projections.Models
+@{
+    int selectedQueryRecordId = -1;
+    int QueryPartRecord_Id = Model.QueryPartRecord_Id;
+}
+<select id="@Html.FieldIdFor(m => QueryPartRecord_Id)" name="@Html.FieldNameFor(m => QueryPartRecord_Id)">
+    @foreach (QueryPart queryPart in ((IEnumerable<QueryPart>)Model.QueryParts).OrderBy(x => x.Name))
+    {
+        @Html.SelectOption(QueryPartRecord_Id, queryPart.Id, queryPart.Name)
+    }
+</select>
+@if (selectedQueryRecordId > 0)
+{
+    @Html.ActionLink(T("Edit Query").Text, "Edit", new { area = "Orchard.Projections", id = selectedQueryRecordId }, new { })
+}
+

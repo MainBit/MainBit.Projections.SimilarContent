@@ -1,0 +1,13 @@
+﻿Name: MainBit.Projections.SimilarContent
+AntiForgery: enabled
+Author: neTp9c
+Website: http://mainbit.com
+Version: 1.0
+OrchardVersion: 1.8
+Description: Description for the MainBit.Search module
+Features:
+	MainBit.Projections.SimilarContent:
+		Name: MainBit.Projections.SimilarContent
+		Dependencies: Orchard.Projections, MainBit.Common
+		Description: Description for the MainBit.Projections.SimilarContent feature
+		Category: Content
