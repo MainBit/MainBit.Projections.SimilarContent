@@ -14,14 +14,16 @@ using Orchard.Utility.Extensions;
 using MainBit.Common.Services;
 using Orchard.Tokens;
 
-namespace MainBit.Projections.SimilarContent.Providers.Filters {
-    public class ContentFieldsFilter : IFilterProvider {
+namespace MainBit.Projections.SimilarContent.Providers.Filters
+{
+    public class ContentFieldsFilter : IFilterProvider
+    {
         private readonly IContentDefinitionManager _contentDefinitionManager;
         private readonly IEnumerable<IContentFieldDriver> _contentFieldDrivers;
         private readonly IEnumerable<MainBit.Projections.SimilarContent.FieldTypeEditors.IFieldTypeEditor> _mainbitFieldTypeEditors;
         private readonly ITokenizer _tokenizer;
         private readonly ICurrentContentAccessor _currentContentAccessor;
-        
+
         public ContentFieldsFilter(
             IContentDefinitionManager contentDefinitionManager,
             IEnumerable<IContentFieldDriver> contentFieldDrivers,
@@ -39,25 +41,31 @@ namespace MainBit.Projections.SimilarContent.Providers.Filters {
 
         public Localizer T { get; set; }
 
-        public void Describe(DescribeFilterContext describe) {
-            foreach(var part in _contentDefinitionManager.ListPartDefinitions()) {
-                if(!part.Fields.Any()) {
+        public void Describe(DescribeFilterContext describe)
+        {
+            foreach (var part in _contentDefinitionManager.ListPartDefinitions())
+            {
+                if (!part.Fields.Any())
+                {
                     continue;
                 }
 
                 var descriptor = describe.For(part.Name + "ContentFieldsForSimimarContent", T("{0} Content Fields for Similar Content", part.Name.CamelFriendly()), T("Content Fields for {0} for Similar Content", part.Name.CamelFriendly()));
 
-                foreach(var field in part.Fields) {
+                foreach (var field in part.Fields)
+                {
                     var localField = field;
                     var localPart = part;
                     var drivers = _contentFieldDrivers.Where(x => x.GetFieldInfo().Any(fi => fi.FieldTypeName == localField.FieldDefinition.Name)).ToList();
 
                     var membersContext = new DescribeMembersContext(
-                        (storageName, storageType, displayName, description) => {
+                        (storageName, storageType, displayName, description) =>
+                        {
                             // look for a compatible field type editor
                             var fieldTypeEditor = _mainbitFieldTypeEditors.FirstOrDefault(x => x.CanHandle(storageType));
 
-                            if(fieldTypeEditor == null) {
+                            if (fieldTypeEditor == null)
+                            {
                                 return;
                             }
 
@@ -69,8 +77,9 @@ namespace MainBit.Projections.SimilarContent.Providers.Filters {
                                 display: context => fieldTypeEditor.DisplayFilter(localPart.Name.CamelFriendly() + "." + localField.DisplayName, storageName, context.State),
                                 form: fieldTypeEditor.FormName);
                         });
-                    
-                    foreach(var driver in drivers) {
+
+                    foreach (var driver in drivers)
+                    {
                         driver.Describe(membersContext);
                     }
                 }
@@ -107,7 +116,8 @@ namespace MainBit.Projections.SimilarContent.Providers.Filters {
             context.Query = context.Query.Where(relationship, andPredicate);
         }
 
-        public LocalizedString DisplayFilter(FilterContext context, ContentPartDefinition part, ContentPartFieldDefinition fieldDefinition) {
+        public LocalizedString DisplayFilter(FilterContext context, ContentPartDefinition part, ContentPartFieldDefinition fieldDefinition)
+        {
             string op = context.State.Operator;
             string value = context.State.Value;
 
