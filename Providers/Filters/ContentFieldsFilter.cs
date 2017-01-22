@@ -11,7 +11,7 @@ using Orchard.Projections.Descriptors.Filter;
 using Orchard.Projections.FieldTypeEditors;
 using Orchard.Projections.Services;
 using Orchard.Utility.Extensions;
-using MainBit.Common.Services;
+using MainBit.Utility.Services;
 using Orchard.Tokens;
 
 namespace MainBit.Projections.SimilarContent.Providers.Filters
